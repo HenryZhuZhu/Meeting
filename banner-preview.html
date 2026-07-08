@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>汇总 Banner 备选方案 · 鑫悦会</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --ink:#111111;--muted:#6b7280;--muted-soft:#898989;--hairline:#e5e7eb;
+    --sans:-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    --display:'Segoe UI',-apple-system,'PingFang SC',sans-serif;
+    --r-pill:999px;
+  }
+  body{background:#f5f5f5;color:var(--ink);font-family:var(--sans);padding:40px 32px 80px;line-height:1.5}
+  .wrap{max-width:1080px;margin:0 auto}
+  .pagettl{font-size:24px;font-weight:700;margin-bottom:6px}
+  .pagesub{font-size:14px;color:var(--muted);margin-bottom:32px}
+  .variant{margin-bottom:34px}
+  .vlabel{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+  .vlabel .no{font-size:13px;font-weight:700;color:#fff;background:#111;border-radius:6px;padding:2px 9px}
+  .vlabel .nm{font-size:15px;font-weight:600}
+  .vlabel .ds{font-size:13px;color:var(--muted)}
+
+  /* ===== Banner 基础布局 ===== */
+  .banner{position:relative;border-radius:16px;padding:26px 32px;overflow:hidden}
+  .banner .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.62;margin-bottom:8px;font-family:var(--sans)}
+  .banner h2{font-size:24px;font-weight:600;margin-bottom:12px;letter-spacing:-0.02em;font-family:var(--display)}
+  .banner .meta{display:flex;gap:18px;flex-wrap:wrap;font-size:13.5px;opacity:.85}
+  .banner .meta span{display:flex;align-items:center;gap:5px}
+  .banner .share{position:absolute;top:22px;right:24px;font-size:13px;font-weight:500;padding:6px 14px;border-radius:var(--r-pill);cursor:pointer;font-family:var(--sans);transition:.14s}
+  /* 浅色底：深色胶囊按钮 */
+  .banner.light .share{border:1px solid rgba(0,0,0,.14);background:rgba(255,255,255,.55);color:var(--ink)}
+  .banner.light .share:hover{background:#fff;border-color:rgba(0,0,0,.28)}
+  /* 深色底：白色胶囊按钮 */
+  .banner.dark{color:#fff}
+  .banner.dark .share{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:#fff}
+  .banner.dark .share:hover{background:rgba(255,255,255,.22)}
+
+  /* ===== V1 柔和蓝紫（当前版） ===== */
+  .v1{background:linear-gradient(120deg,#cfe4ff 0%,#c6ccff 45%,#f0d5ff 100%);border:1px solid rgba(90,90,170,.14);box-shadow:0 8px 24px rgba(90,100,210,.12)}
+
+  /* ===== V2 薄荷青（清爽） ===== */
+  .v2{background:linear-gradient(120deg,#d1fae5 0%,#a7f3d0 45%,#bae6fd 100%);border:1px solid rgba(20,140,120,.16);box-shadow:0 8px 24px rgba(16,185,129,.14)}
+
+  /* ===== V3 暖阳珊瑚（活力） ===== */
+  .v3{background:linear-gradient(120deg,#ffe9d6 0%,#ffd7c2 48%,#ffc9d9 100%);border:1px solid rgba(200,120,90,.16);box-shadow:0 8px 24px rgba(244,120,90,.14)}
+
+  /* ===== V4 高级留白 + 左侧强调条 ===== */
+  .v4{background:#fff;border:1px solid var(--hairline);box-shadow:0 4px 16px rgba(0,0,0,.05)}
+  .v4::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,#6366f1,#a855f7)}
+  .v4 .eyebrow{color:#6366f1;opacity:1}
+
+  /* ===== V5 柔光网状渐变（Mesh） ===== */
+  .v5{background:
+      radial-gradient(120% 120% at 0% 0%, #dbeafe 0%, transparent 45%),
+      radial-gradient(120% 120% at 100% 0%, #fae8ff 0%, transparent 45%),
+      radial-gradient(140% 140% at 50% 120%, #e0f2fe 0%, transparent 50%),
+      #f4f6ff;
+    border:1px solid rgba(120,120,180,.12);box-shadow:0 8px 24px rgba(120,120,200,.10)}
+
+  /* ===== V6 深色高级 + 彩色光晕 ===== */
+  .v6{background:
+      radial-gradient(90% 160% at 100% 0%, rgba(99,102,241,.45) 0%, transparent 55%),
+      radial-gradient(80% 140% at 0% 100%, rgba(168,85,247,.30) 0%, transparent 55%),
+      linear-gradient(135deg,#16161a 0%,#232329 100%);
+    border:1px solid rgba(255,255,255,.08);box-shadow:0 10px 28px rgba(0,0,0,.28)}
+
+  /* ===== V7 鲜艳靛蓝实色 + 白字 ===== */
+  .v7{background:linear-gradient(120deg,#4f46e5 0%,#6366f1 50%,#7c3aed 100%);box-shadow:0 10px 26px rgba(79,70,229,.30)}
+
+  /* ===== V8 单色石墨（极简高级） ===== */
+  .v8{background:linear-gradient(135deg,#f7f7f9 0%,#ececf1 100%);border:1px solid var(--hairline);box-shadow:0 4px 16px rgba(0,0,0,.04)}
+  .v8 h2{color:#111}
+
+  /* ===== V9 天青玻璃拟态 ===== */
+  .v9{background:linear-gradient(120deg,#e6f7ff 0%,#cfeffd 100%);border:1px solid rgba(56,150,200,.18);box-shadow:0 8px 24px rgba(56,150,220,.14)}
+  .v9::after{content:"";position:absolute;inset:0;background:radial-gradient(80% 60% at 80% -10%, rgba(255,255,255,.7), transparent 60%);pointer-events:none}
+
+  /* ===== V10 墨黑描金（沉稳商务） ===== */
+  .v10{background:linear-gradient(135deg,#1b1b1f 0%,#2a2a30 100%);border:1px solid rgba(212,175,120,.30);box-shadow:0 10px 28px rgba(0,0,0,.26)}
+  .v10 .eyebrow{color:#e3c690;opacity:.9}
+  .v10 h2{color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="pagettl">汇总 Banner 备选方案</div>
+  <div class="pagesub">同一份内容套用 10 种风格，挑一个喜欢的告诉我编号（可组合，例如「V6 但换成蓝色光晕」），我来应用到原型。</div>
+
+  <div class="variant">
+    <div class="vlabel"><span class="no">V1</span><span class="nm">柔和蓝紫渐变</span><span class="ds">当前版本 · 清新淡雅</span></div>
+    <div class="banner light v1"><button class="share">↗ 分享</button><div class="eyebrow">会议月报</div><h2>PTE</h2><div class="meta"><span>📅 2026年7月</span><span>🗂 6 个会议</span><span>📦 3 个产品</span><span>👥 84 人次</span></div></div>
+  </div>
+
+  <div class="variant">
+    <div class="vlabel"><span class="no">V2</span><span class="nm">薄荷青</span><span class="ds">清爽 · 有生机</span></div>
+    <div class="banner light v2"><button class="share">↗ 分享</button><div class="eyebrow">会议月报</div><h2>PTE</h2><div class="meta"><span>📅 2026年7月</span><span>🗂 6 个会议</span><span>📦 3 个产品</span><span>👥 84 人次</span></div></div>
+  </div>
+
+  <div class="variant">
+    <div class="vlabel"><span class="no">V3</span><span class="nm">暖阳珊瑚</span><span class="ds">温暖 · 活力</span></div>
+    <div class="banner light v3"><button class="share">↗ 分享</button><div class="eyebrow">会议月报</div><h2>PTE</h2><div class="meta"><span>📅 2026年7月</span><span>🗂 6 个会议</span><span>📦 3 个产品</span><span>👥 84 人次</span></div></div>
+  </div>
+
+  <div class="variant">
+    <div class="vlabel"><span class="no">V4</span><span class="nm">高级留白 + 左侧强调条</span><span class="ds">克制 · 商务</span></div>
+    <div class="banner light v4"><button class="share">↗ 分享</button><div class="eyebrow">会议月报</div><h2>PTE</h2><div class="meta"><span>📅 2026年7月</span><span>🗂 6 个会议</span><span>📦 3 个产品</span><span>👥 84 人次</span></div></div>
+  </div>
+
+  <div class="variant">
+    <div class="vlabel"><span class="no">V5</span><span class="nm">柔光网状渐变 Mesh</span><span class="ds">现代 · 精致</span></div>
+    <div class="banner light v5"><button class="share">↗ 分享</button><div class="eyebrow">会议月报</div><h2>PTE</h2><div class="meta"><span>📅 2026年7月</span><span>🗂 6 个会议</span><span>📦 3 个产品</span><span>👥 84 人次</span></div></div>
+  </div>
+
+  <div class="variant">
+    <div class="vlabel"><span class="no">V6</span><span class="nm">深色高级 + 彩色光晕</span><span class="ds">高级感 · 科技</span></div>
+    <div class="banner dark v6"><button class="share">↗ 分享</button><div class="eyebrow">会议月报</div><h2>PTE</h2><div class="meta"><span>📅 2026年7月</span><span>🗂 6 个会议</span><span>📦 3 个产品</span><span>👥 84 人次</span></div></div>
+  </div>
+
+  <div class="variant">
+    <div class="vlabel"><span class="no">V7</span><span class="nm">鲜艳靛蓝实色</span><span class="ds">醒目 · 品牌感</span></div>
+    <div class="banner dark v7"><button class="share">↗ 分享</button><div class="eyebrow">会议月报</div><h2>PTE</h2><div class="meta"><span>📅 2026年7月</span><span>🗂 6 个会议</span><span>📦 3 个产品</span><span>👥 84 人次</span></div></div>
+  </div>
+
+  <div class="variant">
+    <div class="vlabel"><span class="no">V8</span><span class="nm">单色石墨</span><span class="ds">极简 · 与品牌黑白呼应</span></div>
+    <div class="banner light v8"><button class="share">↗ 分享</button><div class="eyebrow">会议月报</div><h2>PTE</h2><div class="meta"><span>📅 2026年7月</span><span>🗂 6 个会议</span><span>📦 3 个产品</span><span>👥 84 人次</span></div></div>
+  </div>
+
+  <div class="variant">
+    <div class="vlabel"><span class="no">V9</span><span class="nm">天青玻璃拟态</span><span class="ds">通透 · 高光</span></div>
+    <div class="banner light v9"><button class="share">↗ 分享</button><div class="eyebrow">会议月报</div><h2>PTE</h2><div class="meta"><span>📅 2026年7月</span><span>🗂 6 个会议</span><span>📦 3 个产品</span><span>👥 84 人次</span></div></div>
+  </div>
+
+  <div class="variant">
+    <div class="vlabel"><span class="no">V10</span><span class="nm">墨黑描金</span><span class="ds">沉稳 · 商务高端</span></div>
+    <div class="banner dark v10"><button class="share">↗ 分享</button><div class="eyebrow">会议月报</div><h2>PTE</h2><div class="meta"><span>📅 2026年7月</span><span>🗂 6 个会议</span><span>📦 3 个产品</span><span>👥 84 人次</span></div></div>
+  </div>
+
+</div>
+</body>
+</html>

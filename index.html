@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Condition Table - 工作台</title>
+  <link rel="stylesheet" href="styles.css?v=20260705-8">
+  <script src="lucide.min.js" defer></script>
+  <script src="vendor/ag-grid/ag-grid-community.min.js" defer></script>
+  <script src="app.js?v=20260705-7" defer></script>
+</head>
+<body>
+  <main class="main-shell">
+    <header class="topbar">
+      <div class="brand-lockup"><span>iTest</span><strong>Condition Table</strong></div>
+      <nav class="primary-nav" aria-label="主导航">
+        <button class="nav-item active" data-view="home">我的</button>
+        <button class="nav-item" data-view="tables">全部产品</button>
+      </nav>
+      <div class="top-actions">
+        <button class="icon-button admin-entry" id="permissionButton" title="产品与权限" aria-label="产品与权限"><i data-lucide="settings-2"></i></button>
+        <button class="icon-button" id="themeToggle" title="深色模式" aria-label="深色模式"><i data-lucide="moon"></i></button>
+        <button class="avatar-button" title="账户" aria-label="账户">KS</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <div id="homeView">
+        <section class="welcome-row">
+          <div><p class="eyebrow">iTest PRODUCT SUITE</p><h1>Condition Table</h1><p class="welcome-copy">回到最近的配置表，快速确认版本与编辑状态。</p></div>
+          <button class="button primary import-button" id="importButton"><i data-lucide="upload"></i>导入</button>
+        </section>
+
+        <section class="section-block">
+          <div class="section-head">
+            <div><div class="work-title-line"><h2 id="workSectionTitle">继续工作</h2><span class="maintenance-stage">维护阶段 FT12</span></div><p id="workSectionCopy">你负责产品中最近访问的 Condition Table</p></div>
+            <div class="segmented" role="group" aria-label="内容筛选">
+              <button class="active" data-filter="all">全部</button>
+              <button data-filter="available">可编辑</button>
+              <button data-filter="locked">编辑中</button>
+            </div>
+          </div>
+          <div class="work-grid" id="workGrid"></div>
+          <div class="empty-state" id="emptyState" hidden><i data-lucide="search-x"></i><h3>没有找到相关表格</h3><p>换个关键词或筛选条件试试。</p></div>
+        </section>
+
+        <section class="section-block recent-products-section">
+          <div class="section-head"><div><h2>我的产品</h2><p>你当前负责维护的产品</p></div><button class="text-button" id="goToProductIndex">查看全部产品<i data-lucide="chevron-right"></i></button></div>
+          <div class="recent-product-grid" id="recentProductGrid"></div>
+        </section>
+      </div>
+
+      <div id="productsView" hidden>
+        <section class="welcome-row compact-welcome">
+          <div><p class="eyebrow">CONDITION TABLE</p><h1>产品</h1><p class="welcome-copy">共 48 个产品，按系列、型号或内部代码快速定位。</p></div>
+        </section>
+
+        <section class="section-block product-section">
+          <div class="product-scope" role="group" aria-label="产品范围">
+            <button class="active" data-scope="mine">我的产品 <span>2</span></button>
+            <button data-scope="all">全部产品 <span>48</span></button>
+          </div>
+          <div class="product-toolbar">
+            <div class="product-finder">
+              <select id="familySelect" aria-label="产品系列"><option value="all">全部系列</option><option value="DDR5">DDR5</option><option value="LPDDR5X">LPDDR5X</option><option value="DDR4">DDR4</option><option value="HBM">HBM</option></select>
+              <span class="finder-divider"></span><i data-lucide="search"></i><input id="productSearch" type="search" placeholder="输入产品型号或内部代码">
+            </div>
+            <select id="productSort" class="compact-select" aria-label="产品排序"><option value="recent">最近使用</option><option value="az">型号 A–Z</option></select>
+          </div>
+          <div class="product-index full-index" id="productGrid"></div>
+          <div class="index-footer"><span id="productCount">显示 12 / 48 个产品</span></div>
+        </section>
+      </div>
+
+      <div id="productDetailView" hidden>
+        <section class="table-page-heading"><div><p class="eyebrow">CONDITION TABLE</p><h1>全部产品</h1><p class="welcome-copy">选择任意产品，查看不同测试程序版本下的全部阶段表格。</p></div></section>
+        <div class="table-workspace">
+          <div class="version-column">
+            <div class="product-picker-wrap">
+              <label>当前产品</label>
+              <button class="product-picker-button" id="productPickerButton"><span><strong id="pickerCurrentName">DBJOA</strong><small id="pickerCurrentFamily">DDR5</small></span><i data-lucide="chevrons-up-down"></i></button>
+              <div class="product-picker-menu" id="productPickerMenu" hidden>
+                <div class="picker-search"><i data-lucide="search"></i><input id="productPickerInput" maxlength="5" placeholder="输入 5 位产品名，如 DBJOA"></div>
+                <div class="picker-body"><div class="picker-categories"><button class="active" data-picker-family="all">全部类型</button><button data-picker-family="DDR5">DDR5</button><button data-picker-family="LPDDR5X">LPDDR5X</button><button data-picker-family="DDR4">DDR4</button><button data-picker-family="HBM">HBM</button></div><div class="picker-products" id="pickerProducts"></div></div>
+              </div>
+            </div>
+            <aside class="version-browser">
+              <div class="version-browser-head"><h2>测试程序版本</h2><span id="versionResultCount">12</span></div>
+              <p>选择版本查看对应 Condition Table</p>
+              <div class="program-types" role="group" aria-label="测试程序类型"><button class="active" data-program="development">研发程序 <span>6</span></button><button data-program="production">量产程序 <span>6</span></button></div>
+              <div class="version-toolbar">
+                <label class="version-search"><i data-lucide="search"></i><input id="versionSearch" type="search" placeholder="搜索版本"></label>
+                <select id="versionFilter" aria-label="版本状态"><option value="all">全部状态</option><option value="current">当前版本</option><option value="released">已发布</option><option value="history">历史版本</option></select>
+                <button id="versionSort" type="button" data-direction="desc" aria-label="按更新时间倒序，点击切换为正序" title="按更新时间排序"><span>时间</span><i data-lucide="arrow-down"></i></button>
+              </div>
+              <div class="version-list" id="versionTabs"></div>
+            </aside>
+          </div>
+
+          <section class="stage-section">
+            <div class="program-list" id="programList">
+              <div class="stage-row stage-header">
+                <span>Condition Table</span>
+                <span>Mask</span>
+                <span>封装配置</span>
+                <span>机台 / FAB</span>
+                <span>当前变更</span>
+                <label class="stage-column-filter"><span>状态</span><select id="stageStatusFilter" aria-label="筛选表格状态"><option value="all">全部</option><option value="available">可编辑</option><option value="locked">编辑中</option><option value="readonly">仅查看</option></select></label>
+                <button class="stage-sort" id="stageUpdatedSort" type="button" data-direction="desc" aria-label="按最后更新时间倒序，点击切换为正序"><span>最后更新</span><i data-lucide="arrow-down"></i></button>
+                <span></span>
+              </div>
+              <div id="stageRows"></div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div id="editorView" hidden>
+        <section class="editor-heading">
+          <div class="editor-title-row"><button class="icon-button editor-back" id="closeEditor" title="返回" aria-label="返回"><i data-lucide="arrow-left"></i></button><div><p class="eyebrow">TABLE EDITOR</p><h1 id="editorTitle">DBJOA / E0388 / CP</h1></div></div>
+          <div class="editor-actions">
+            <span class="status available" id="editorStatus"><i data-lucide="circle-check"></i>可编辑</span>
+            <span class="editor-action-divider"></span>
+            <button class="icon-button" id="undoEdit" title="撤销" aria-label="撤销"><i data-lucide="undo-2"></i></button>
+            <button class="icon-button" id="redoEdit" title="重做" aria-label="重做"><i data-lucide="redo-2"></i></button>
+            <button class="button secondary editor-command" id="compareVersions"><i data-lucide="git-compare-arrows"></i>版本对比</button>
+            <button class="button secondary editor-command" id="generateChecklist"><i data-lucide="list-checks"></i>生成 Checklist</button>
+          </div>
+        </section>
+        <section class="edit-context-bar">
+          <div><span>本次修改</span><strong id="activePurpose">尚未选择 Purpose</strong><small id="activeAction">编辑前请选择对应 Action</small></div>
+          <button class="button secondary" id="chooseChangeContext"><i data-lucide="target"></i>选择 Purpose / Action</button>
+          <span class="autosave-state" id="autosaveState"><i data-lucide="cloud-check"></i>已自动保存</span>
+        </section>
+        <section class="editor-attributes">
+          <div class="editor-section-title"><h2>属性</h2><span>FT12</span></div>
+          <div class="attribute-grid">
+            <div><span>Product</span><strong id="attributeProduct">DBJOA</strong></div>
+            <div><span>Stage</span><strong id="attributeStage">FT12</strong></div>
+            <div><span>Version</span><strong id="attributeVersion">E0388</strong></div>
+            <div><span>Mask</span><div class="attribute-values" id="attributeMask"></div></div>
+            <div class="stage-only-attribute"><span>BallType</span><div class="attribute-values editable-values" id="attributeBallType"></div></div>
+            <div class="stage-only-attribute"><span>Package</span><div class="attribute-values editable-values" id="attributePackage"></div></div>
+            <div class="stage-only-attribute"><span>DSA</span><div class="attribute-values" id="attributeDsa"></div></div>
+            <div><span>Tester</span><div class="attribute-values" id="attributeTester"></div></div>
+            <div><span>FAB</span><div class="attribute-values" id="attributeFab"></div></div>
+            <div class="stage-only-attribute"><span>DieType</span><div class="attribute-values" id="attributeDieType"></div></div>
+          </div>
+        </section>
+        <section class="editor-data-section"><div class="editor-section-title"><h2>表格数据</h2><span>AG Grid Community</span></div><div class="editor-grid-shell"><div id="stageGrid"></div></div></section>
+      </div>
+
+      <div id="adminView" hidden>
+        <section class="welcome-row compact-welcome admin-heading">
+          <div><p class="eyebrow">ADMINISTRATION</p><h1>产品与权限</h1><p class="welcome-copy">为工程师分配“我的产品”，并按需设置产品可见性与编辑性。</p></div>
+        </section>
+        <section class="admin-panel">
+          <div class="admin-toolbar name-search"><div class="product-search"><i data-lucide="search"></i><input id="adminSearch" type="search" placeholder="搜索工程师姓名"></div></div>
+          <div id="adminContent"></div>
+          <div class="access-popover" id="accessPopover" hidden>
+            <div class="access-popover-head"><div><p class="eyebrow">产品权限</p><h3 id="accessTitle">可见产品</h3><span id="accessPerson">Alex Chen</span></div><button class="icon-button" id="closeAccessPopover" title="关闭"><i data-lucide="x"></i></button></div>
+            <div class="access-types" id="accessTypes"></div>
+            <div class="access-products" id="accessProducts"></div>
+            <div class="access-popover-foot"><span id="accessCount">已选择 0 个产品</span><button class="button primary" id="finishAccess">完成</button></div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="modal-backdrop" id="importModal" hidden>
+    <section class="modal import-modal" role="dialog" aria-modal="true" aria-labelledby="importTitle">
+      <div class="modal-head">
+        <div><p class="eyebrow">IMPORT</p><h2 id="importTitle">导入 Condition Table</h2><p class="modal-copy">相同 Product、Stage、Version 的文件会归入同一个测试程序</p></div>
+        <button class="icon-button" id="closeImport" type="button" title="关闭" aria-label="关闭"><i data-lucide="x"></i></button>
+      </div>
+      <form id="importForm">
+        <div class="import-target" id="importTarget">
+          <div class="import-section-head"><h3>1. 测试程序</h3><span>三个属性共同确定归组</span></div>
+          <div class="import-grid">
+            <label><span>Product</span><select id="importProduct" required></select></label>
+            <label><span>程序类型</span><select id="importProgram" required><option value="development">研发程序</option><option value="production">量产程序</option></select></label>
+            <label><span>Version</span><input id="importVersion" value="E0388" pattern="E[0-9]{4}" required></label>
+            <label><span>Stage</span><select id="importStage" required><option>CP</option><option>RDBI</option><option>FT12</option><option>FT34</option></select></label>
+          </div>
+          <div class="program-match" id="programMatch"><i data-lucide="layers-3"></i><span><strong>将创建新的测试程序</strong><small>DBJOA / CP / E0388</small></span></div>
+          <div class="import-section-head condition-heading"><h3>2. Condition Table 属性</h3><span>除三个唯一属性外均可多选</span></div>
+          <div class="multi-attribute-grid">
+            <fieldset><legend>Mask <b>必填</b></legend><div class="choice-set" data-import-values="mask"><label><input type="checkbox" value="RevA" checked><span>RevA</span></label><label><input type="checkbox" value="RevB"><span>RevB</span></label><label><input type="checkbox" value="RevC"><span>RevC</span></label></div></fieldset>
+            <fieldset><legend>Tester</legend><div class="choice-set" data-import-values="tester"><label><input type="checkbox" value="T5833HS" checked><span>T5833HS</span></label><label><input type="checkbox" value="T5833HS2"><span>T5833HS2</span></label></div></fieldset>
+            <fieldset><legend>FAB</legend><div class="choice-set" data-import-values="fab"><label><input type="checkbox" value="A1" checked><span>A1</span></label><label><input type="checkbox" value="A2"><span>A2</span></label><label><input type="checkbox" value="C1"><span>C1</span></label></div></fieldset>
+          </div>
+          <div class="multi-attribute-grid stage-specific-import" id="importPackageFields" hidden>
+            <fieldset><legend>BallType <b>必填</b></legend><div class="choice-set" data-import-values="ballType"><label><input type="checkbox" value="245B" checked><span>245B</span></label><label><input type="checkbox" value="396B"><span>396B</span></label></div></fieldset>
+            <fieldset><legend>Package <b>必填</b></legend><div class="choice-set" data-import-values="package"><label><input type="checkbox" value="DDP" checked><span>DDP</span></label><label><input type="checkbox" value="QDP"><span>QDP</span></label><label><input type="checkbox" value="6DP"><span>6DP</span></label><label><input type="checkbox" value="8DP"><span>8DP</span></label></div></fieldset>
+            <fieldset><legend>DSA</legend><div class="choice-set" data-import-values="dsa"><label><input type="checkbox" value="128DUT" checked><span>128DUT</span></label><label><input type="checkbox" value="256DUT"><span>256DUT</span></label></div></fieldset>
+            <fieldset><legend>DieType</legend><div class="choice-set" data-import-values="dieType"><label><input type="checkbox" value="Normal Die" checked><span>Normal Die</span></label><label><input type="checkbox" value="Half Die"><span>Half Die</span></label></div></fieldset>
+          </div>
+          <div class="import-conflict" id="importConflict" hidden><i data-lucide="triangle-alert"></i><span><strong>目标表格已存在</strong><small>继续导入将覆盖当前内容；若表格正在编辑，则无法覆盖。</small></span></div>
+        </div>
+        <div class="import-section-head import-file-heading"><h3>3. 选择文件</h3><span>一个文件对应一张 Condition Table</span></div>
+        <label class="drop-zone import-drop-zone" id="importDropZone">
+          <input id="importFile" type="file" accept=".xlsx,.xls,.asc" hidden>
+          <i data-lucide="file-up"></i><strong>选择 Excel 或 ASC 文件</strong><span>.xlsx、.xls、.asc</span>
+        </label>
+        <div class="import-file" id="importFileSummary" hidden><i data-lucide="file-check-2"></i><span><strong id="importFileName"></strong><small id="importFileMeta"></small></span><button type="button" id="removeImportFile" title="移除文件" aria-label="移除文件"><i data-lucide="x"></i></button></div>
+        <div class="modal-actions"><button class="button secondary" id="cancelImport" type="button">取消</button><button class="button primary" id="confirmImport" type="submit" disabled>导入</button></div>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="changeContextModal" hidden>
+    <section class="modal change-context-modal" role="dialog" aria-modal="true" aria-labelledby="changeContextTitle">
+      <div class="modal-head"><div><p class="eyebrow">CHANGE CONTEXT</p><h2 id="changeContextTitle">这次修改是为了什么？</h2><p class="modal-copy">每一次表格修改都必须关联到测试程序的 Purpose 和 Action。</p></div><button class="icon-button" id="closeChangeContext" title="关闭" aria-label="关闭"><i data-lucide="x"></i></button></div>
+      <label class="context-field"><span>Purpose</span><select id="purposeSelect"></select></label>
+      <label class="context-field"><span>Action</span><select id="actionSelect"></select></label>
+      <div class="context-note"><i data-lucide="cloud-check"></i><span>选择后，后续修改将实时保存并记录到该 Action。</span></div>
+      <div class="modal-actions"><button class="button secondary" id="cancelChangeContext" type="button">取消</button><button class="button primary" id="confirmChangeContext" type="button">开始修改</button></div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="checklistModal" hidden>
+    <section class="modal checklist-modal" role="dialog" aria-modal="true" aria-labelledby="checklistTitle">
+      <div class="modal-head"><div><p class="eyebrow">CHECKLIST</p><h2 id="checklistTitle">检查当前 Condition Table</h2><p class="modal-copy" id="checklistContext">DBJOA / FT12 / E0388</p></div><button class="icon-button" id="closeChecklist" title="关闭" aria-label="关闭"><i data-lucide="x"></i></button></div>
+      <div class="checklist-summary"><strong id="checklistProgress">0 / 5</strong><span>可由自己或同事共同检查</span></div>
+      <div class="checklist-items" id="checklistItems"></div>
+      <div class="modal-actions"><button class="button secondary" id="copyChecklist" type="button"><i data-lucide="copy"></i>复制</button><button class="button primary" id="finishChecklist" type="button">完成</button></div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="diffModal" hidden>
+    <section class="modal diff-modal" role="dialog" aria-modal="true" aria-labelledby="diffTitle">
+      <div class="modal-head"><div><p class="eyebrow">VERSION DIFF</p><h2 id="diffTitle">对比测试程序版本</h2><p class="modal-copy" id="diffContext">DBJOA / FT12</p></div><button class="icon-button" id="closeDiff" title="关闭" aria-label="关闭"><i data-lucide="x"></i></button></div>
+      <div class="diff-selectors"><label><span>基准版本</span><select id="diffBase"><option>E0387</option><option>E0380</option></select></label><i data-lucide="arrow-right"></i><label><span>对比版本</span><select id="diffTarget"><option>E0388</option><option>E0387</option></select></label></div>
+      <div class="diff-summary"><span class="diff-added">+ 3 新增</span><span class="diff-changed">~ 4 修改</span><span class="diff-removed">− 1 删除</span></div>
+      <div class="diff-table">
+        <div class="diff-row diff-head"><span>位置</span><span>基准版本</span><span>对比版本</span></div>
+        <div class="diff-row changed"><strong>Row 18 · Voltage</strong><del>1.10</del><ins>1.08</ins></div>
+        <div class="diff-row added"><strong>Row 26 · Timing</strong><span>—</span><ins>tRFC2 = 420</ins></div>
+        <div class="diff-row changed"><strong>Row 41 · Pattern</strong><del>Pat_A</del><ins>Pat_A2</ins></div>
+        <div class="diff-row removed"><strong>Row 53 · Retry</strong><del>Enabled</del><span>—</span></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>
